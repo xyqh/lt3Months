@@ -18,10 +18,3 @@ int minDeletion(vector<int>& nums){
     }
     return ans + virtualIdx % 2;
 }
-
-int main(){
-    vector<int> nums = {1,1,2,2,3,3};
-    int del = minDeletion(nums);
-    cout << del << endl;
-    return 0;
-}

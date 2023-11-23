@@ -1,21 +1,57 @@
-#include<vector>
-#include<algorithm>
-
-using namespace std;
+#include "LeetCodeBase.h"
 
 int calcDistance(int a, int b, int c){
     return abs(a-b) + abs(a-c) + abs(b-c);
 }
 
 /**
- * 对于 D=abs(a-b)+abs(a-c)+abs(b-c)
- * 当ab确定时，不妨假设a<b，在数轴上标识出ab两点，对任意c∈(-∞,a)∪(b,+∞)，有D=abs(a-b)+abs(c-a)+abs(c-b)>abs(a-b)+abs(a-b)。（不清楚的可以把并集拿掉，对两个区间分类讨论）
- * 当且仅当c∈[a,b]时，D取得最小值即D=2abs(a-b)。
+ * 求最小值需要三个点尽量近
+ * 已知s1中任意一个点a，找到s2中任意点b∈(-∞, a)的上确界点supb，以及任意点b∈(a,+∞)的下确界infb
+ * 二分找最接近s3中[a,b]的点c
  * 
- * 对于在排序数组中寻找是否存在区间[a,b]的值，显然二分最合适。
- * 时间复杂度为：i*j*log(k)，i,j,k为三个数组的长度，显然k越大，时间复杂度越低。
- * 空间复杂度：
+ * 对2的补充说明，假设b1<=a，且b2<b1，对任意点c有abs(b1-c)+abs(b1-a)+abs(a-c)与abs(b2-c)+abs(b2-a)+abs(a-c)的比较
+ * 其中abs(b2-a)=abs(b2-b1)+abs(b1-a)
+ * 即只需要考虑abs(b1-c)和abs(b2-c)+abs(b1-b2)的大小
+ * 对于任意c∈(-∞, b2]，abs(b1-c)==abs(b2-c)+abs(b1-b2)
+ * 对于任意c∈[b2,b1]，abs(b1-c)<abs(b2-c)+abs(b1-b2)
+ * 对于任意c∈[b1,+∞)，abs(b1-c)<abs(b2-c)+abs(b1-b2)
+ * 同理证得b1>=a，且b2>b1的合理性
 */
+vector<int> GetCloseToNum(int num, vector<int> nums){
+    int n = nums.size();
+    int l = 0, r = n - 1, infIdx = -1, supIdx = -1;
+    // 上确界
+    while(l <= r){
+        int m = l + (r - l >> 1);
+        if(nums[m] <= num){
+            supIdx = m;
+            l = m + 1;
+        }else{
+            r = m - 1;
+        }
+    }
+    l = 0, r = n - 1;
+    // 下确界
+    while(l <= r){
+        int m = l + (r - l >> 1);
+        if(nums[m] >= num){
+            infIdx = m;
+            r = m - 1;
+        }else{
+            l = m + 1;
+        }
+    }
+
+    vector<int> ans;
+    if(supIdx != -1){
+        ans.push_back(nums[supIdx]);
+    }
+    if(infIdx != -1){
+        ans.push_back(nums[infIdx]);
+    }
+    return ans;
+}
+
 int minDistance(vector<int>& s1, vector<int>& s2, vector<int>& s3){
     vector<vector<int>> s;
     s.push_back(move(s1));
@@ -27,9 +63,10 @@ int minDistance(vector<int>& s1, vector<int>& s2, vector<int>& s3){
 
     int minD = INT_MAX, l = 0, r = s[2].size() - 1, m = 0;
     for(int i = 0; i < s[0].size(); ++i){
-        for(int j = 0; j < s[1].size(); ++j){
+        vector<int> closes = GetCloseToNum(s[0][i], s[1]);
+        for(int j = 0; j < closes.size(); ++j){
             // 找最接近的数，二分
-            int a = s[0][i], b = s[1][j];
+            int a = s[0][i], b = closes[j];
             if(a > b){
                 swap(a, b);
             }
@@ -53,4 +90,11 @@ int minDistance(vector<int>& s1, vector<int>& s2, vector<int>& s3){
     }
 
     return minD;
+}
+
+int main(){
+    vector<int> s1 = {-1,0,9}, s2 = {-25,-10,10,11}, s3 = {2,9,17,30,41};
+    int minD = minDistance(s1, s2, s3);
+    cout << minD << endl;
+    return 0;
 }

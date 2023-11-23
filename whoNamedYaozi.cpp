@@ -37,6 +37,7 @@ int minDistance(vector<int>& s1, vector<int>& s2, vector<int>& s3){
             l = 0, r = s[2].size() - 1;
             while(l <= r){
                 m = l + (r - l >> 1);
+                minD = min(minD, calcDistance(a, b, s[2][m]));
                 if(s[2][m] < a){
                     l = m + 1;
                 }else if(s[2][m] > b){
@@ -45,8 +46,6 @@ int minDistance(vector<int>& s1, vector<int>& s2, vector<int>& s3){
                     break;
                 }
             }
-            int c = s[2][m];
-            minD = min(minD, calcDistance(a, b, c));
             if(minD == 0){
                 return minD;
             }

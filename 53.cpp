@@ -1,18 +1,16 @@
 #include "LeetCodeBase.h"
 
-/**
- * 动态规划
-*/
+// /**
+//  * 动态规划
+// */
 // int maxSubArray(vector<int>& nums) {
-//     int ans = INT_MIN, n = nums.size();
-//     int dp[n];
-//     dp[0] = nums[0];
-//     ans = nums[0];
-//     for(int i = 1; i < n; ++i){
-//         dp[i] = max(dp[i - 1] + nums[i], nums[i]);
-//         ans = max(ans, dp[i]);
+//     int n = nums.size();
+//     int cur = 0, pre = 0, ans = INT_MIN;
+//     for(int i = 0; i < n; ++i){
+//         cur = max(pre + nums[i], nums[i]);
+//         ans = max(ans, cur);
+//         pre = cur;
 //     }
-
 //     return ans;
 // }
 

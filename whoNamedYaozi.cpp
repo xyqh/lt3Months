@@ -95,6 +95,7 @@ int minDistance(vector<int>& s1, vector<int>& s2, vector<int>& s3){
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <cstdint>
 int anotherMinDistance(const vector<int>& s1, const vector<int>& s2, const vector<int>& s3)
 {
     int calc_count = 0;

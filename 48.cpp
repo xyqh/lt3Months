@@ -12,7 +12,16 @@ void rotate(vector<vector<int>>& matrix) {
         for(int j = i; j < n - 1 - i; ++j){
             int pixel = matrix[i][j], temp = 0, x = i, y = j;
             for(int k = 0; k < 4; ++k){
-                // (x, y): (0, 0)->(0, n - 1)->(n - 1, n - 1)->(n - 1, 0)
+                /**
+                 * (x, y): (0, 0)->(0, n - 1)->(n - 1, n - 1)->(n - 1, 0)
+                 * 旋转公式：x' = xcosθ + ysinθ, y' = -xsinθ + ycosθ; 其中θ为逆时针旋转角度
+                 * 由于题目要求顺时针旋转90°，可得sinθ=-1, cosθ=0;
+                 * 即x' = -y, y' = x
+                 * 注意：坐标原点0，0在左上角，旋转后需要向x轴正方向平移n-1个单位长度，即
+                 * x' = -y + n - 1
+                 * 得到新坐标(-y + n - 1, x)
+                 * 需要映射到二维数组的下标可得下标为：[x, -y + n - 1]
+                */
                 swap(x, y);
                 y = -y + n - 1;
                 temp = matrix[x][y];

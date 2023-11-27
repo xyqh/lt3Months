@@ -4,7 +4,7 @@ ListNode *mergeTwoLists(ListNode *list1, ListNode *list2){
     ListNode *dummyNode = new ListNode(0);
     ListNode *node = dummyNode;
     while(list1 && list2){
-        if(list2 < list1){
+        if(list2->val < list1->val){
             node->next = list2;
             list2 = list2->next;
         }else{

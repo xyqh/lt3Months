@@ -1,47 +1,34 @@
 #include "LeetCodeBase.h"
 
-ListNode *mergeSortList(ListNode *head, ListNode *tail){
-    if(head == tail){
-        return head;
+ListNode *sortList(ListNode *head){
+    if(head == nullptr) return nullptr;
+    vector<ListNode*> list;
+    while(head){
+        list.push_back(head);
+        head = head->next;
     }
 
-    ListNode *slow = head, *fast = head;
-    while(fast && fast != tail){
-        slow = slow->next;
-        fast = fast->next;
-        if(fast == tail){
-            break;
-        }
-        if(fast){
-            fast = fast->next;
-        }
-    }
-    ListNode *l1 = mergeSortList(head, slow);
-    ListNode *l2 = mergeSortList(slow->next, tail);
+    sort(list.begin(), list.end(), [](ListNode *a, ListNode *b){
+        return a->val < b->val;
+    });
     ListNode *newHead = new ListNode(0), *node = newHead;
-    while(l1 && l2){
-        if(l2->val < l1->val){
-            node->next = l2;
-            l2 = l2->next;
-        }else{
-            node->next = l1;
-            l1 = l1->next;
-        }
+    for(ListNode *n:list){
+        n->next = nullptr;
+        node->next = n;
         node = node->next;
-    }
-    if(l1){
-        node->next = l1;
-    }
-    if(l2){
-        node->next = l2;
     }
     return newHead->next;
 }
 
-ListNode *sortList(ListNode *head){
-    ListNode *node = head;
-    while(node->next){
-        node = node->next;
-    }
-    return mergeSortList(head, node);
+int main(){
+    ListNode *node1 = new ListNode(4);
+    ListNode *node2 = new ListNode(2);
+    ListNode *node3 = new ListNode(1);
+    ListNode *node4 = new ListNode(3);
+
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    ListNode *node = sortList(node1);
+    return 0;
 }

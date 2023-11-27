@@ -1,6 +1,7 @@
 #include "LeetCodeBase.h"
 
 Node *copyRandomList(Node *head){
+    if(head == nullptr) return head;
     Node *dummyNode = new Node(0), *node = head;
     dummyNode->next = head;
     while(node){
@@ -20,11 +21,15 @@ Node *copyRandomList(Node *head){
 
     node = dummyNode->next;
     Node *ans = node->next;
-    while(node->next && ans->next){
-        node->next = node->next->next;
+    dummyNode = ans;
+    while(node && node->next && ans){
+        node->next = ans->next;
         node = node->next;
-        ans->next = ans->next->next;
+        if(ans->next){
+            ans->next = ans->next->next;
+        }
+        ans = ans->next;
     }
 
-    return ans;
+    return dummyNode;
 }

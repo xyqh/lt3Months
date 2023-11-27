@@ -13,6 +13,7 @@ ListNode* swapPairs(ListNode* head){
         }else{
             break;
         }
+        node = next;
     }
 
     return dummyNode->next;

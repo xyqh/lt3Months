@@ -23,26 +23,20 @@ public:
                 node->children[word[i] - 'a'] = new TrieNode(word[i]);
             }
             node = node->children[word[i] - 'a'];
-            if(i == n - 1){
-                node->isWord = true;
-            }
         }
+        node->isWord = true;
     }
     
     bool search(string word) {
         int n = word.size();
         TrieNode *node = dummyNode;
-        bool isWord = false;
         for(int i = 0; i < n; ++i){
             node = node->children[word[i] - 'a'];
             if(node == nullptr){
                 return false;
             }
-            if(i == n - 1){
-                isWord = node->isWord;
-            }
         }
-        return isWord;
+        return node->isWord;
     }
     
     bool startsWith(string prefix) {

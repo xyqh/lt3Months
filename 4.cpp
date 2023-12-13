@@ -31,6 +31,6 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
     if(totalLen % 2 == 1){
         return findKthElement(nums1, nums2, (totalLen + 1) / 2);
     }else{
-        return (findKthElement(nums1, nums2, totalLen / 2) + findKthElement(nums1, nums2, (total + 1) / 2)) / 2.0;
+        return (findKthElement(nums1, nums2, totalLen / 2) + findKthElement(nums1, nums2, totalLen / 2 + 1)) / 2.0;
     }
 }

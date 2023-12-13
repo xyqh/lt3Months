@@ -1,8 +1,8 @@
 #include "LeetCodeBase.h"
 
 int findKthElement(vector<int>& nums1, vector<int>& nums2, int k){
-    int index1 = 0, index2 = 0;
     int m = nums1.size(), n = nums2.size();
+    int index1 = 0, index2 = 0;
     while(true){
         if(index1 == m){
             return nums2[index2 + k - 1];
@@ -16,8 +16,7 @@ int findKthElement(vector<int>& nums1, vector<int>& nums2, int k){
 
         int newIndex1 = min(index1 + k / 2 - 1, m - 1);
         int newIndex2 = min(index2 + k / 2 - 1, n - 1);
-        int pivot1 = nums1[newIndex1], pivot2 = nums2[newIndex2];
-        if(pivot1 <= pivot2){
+        if(nums1[newIndex1] <= nums2[newIndex2]){
             k -= newIndex1 - index1 + 1;
             index1 = newIndex1 + 1;
         }else{
@@ -28,10 +27,10 @@ int findKthElement(vector<int>& nums1, vector<int>& nums2, int k){
 }
 
 double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-    int m = nums1.size(), n = nums2.size();
-    if((m + n) % 2 == 1){
-        return findKthElement(nums1, nums2, (m + n + 1) / 2);
+    int totalLen = nums1.size() + nums2.size();
+    if(totalLen % 2 == 1){
+        return findKthElement(nums1, nums2, (totalLen + 1) / 2);
     }else{
-        return (findKthElement(nums1, nums2, (m + n) / 2) + findKthElement(nums1, nums2, (m + n) / 2 + 1)) / 2.0;
+        return (findKthElement(nums1, nums2, totalLen / 2) + findKthElement(nums1, nums2, (total + 1) / 2)) / 2.0;
     }
 }

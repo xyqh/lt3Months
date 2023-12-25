@@ -3,14 +3,15 @@
     // {2,3,1,1,4}
     int jump(vector<int>& nums) {
         int ans = 0, n = nums.size();
-        int curIdx = 0, endIdx = 0, newEndIdx = nums[curIdx];
-        while(newEndIdx < n - 1){
-            if(curIdx > endIdx){
-                ++ans;
-                endIdx = newEndIdx;
+        int curIdx = 0, endIdx = nums[curIdx];
+        while(endIdx < n - 1){
+            ++ans;
+            int newEndIdx = 0;
+            for(int i = curIdx; i <= endIdx; ++i){
+                newEndIdx = max(newEndIdx, curIdx + nums[curIdx]);
             }
-            newEndIdx = max(endIdx, curIdx + nums[curIdx++]);
+            endIdx = newEndIdx;
         }
 
-        return ans + (endIdx < n - 1);
+        return ans;
     }

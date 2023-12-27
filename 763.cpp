@@ -13,9 +13,9 @@
         for(int i = 0; i < n; ++i){
             indexs[s[i] - '0'].push_back(i);
         }
-        int l = 0, r = 0;
+        int l = 0;
         vector<int> ans;
-        while(r < n){
+        while(l < n){
             int idx = l;
             char c = s[idx];
             int furthest = indexs[c - '0'].back();
@@ -24,7 +24,7 @@
                 furthest = max(furthest, indexs[c - '0'].back());
             }
             ans.push_back(furthest - l + 1);
-            r = furthest + 1;
+            l = furthest + 1;
         }
         return ans;
     }

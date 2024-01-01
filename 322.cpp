@@ -1,21 +1,31 @@
-    #include "LeetCodeBase.h"
+#include "LeetCodeBase.h"
 
-    int findIndex(vector<int>& coins, int coin){
-        int n = coins.size(), l = 0, r = n - 1;
-        while(l <= r){
-            int m = l + (r - l >> 1);
-            if(coins[m] == coin){
-                return m;
-            }else if(coins[m] < coin){
-                l = m + 1;
-            }else{
-                r = m - 1;
+int coinChange(vector<int>& coins, int amount){
+    sort(coins.begin(), coins.end());
+    vector<int> dp(amount + 1, -1);
+    dp[0] = 0;
+    for(int i = 1; i < amount + 1; ++i){
+        for(int k = 0; k < coins.size(); ++k){
+            if(coins[k] > i){
+                break;
             }
+            if(dp[i - coins[k]] == -1){
+                continue;
+            }
+            if(dp[i] == -1){
+                dp[i] = dp[i - coins[k]] + 1;
+            }else{
+                dp[i] = min(dp[i], dp[i - coins[k]] + 1);
+            }
+            cout << i << " " << dp[i] << endl;
         }
-        return -1;
     }
+    return dp[amount];
+}
 
-    int coinChange(vector<int>& coins, int amount){
-        sort(coins.begin(), coins.end());
-
-    }
+int main(){
+    vector<int> coins = {186,419,83,408};
+    int n = 6249;
+    cout << coinChange(coins, n) << endl;
+    return 0;
+}
